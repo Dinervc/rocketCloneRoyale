@@ -59,7 +59,8 @@ export function removePeer(room: Room, peerId: string): void {
     return;
   }
   if (room.hostId === peerId) {
-    room.hostId = Array.from(room.peers.keys())[0] ?? "";
+    const nextHostId = Array.from(room.peers.keys())[0];
+    if (nextHostId) room.hostId = nextHostId;
   }
 }
 

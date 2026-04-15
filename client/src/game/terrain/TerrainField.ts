@@ -1,5 +1,7 @@
 import Phaser from "phaser";
 
+const HAZARD_DISSOLVE_PROBABILITY = 0.03;
+
 export class TerrainField {
   readonly width: number;
   readonly height: number;
@@ -100,7 +102,7 @@ export class TerrainField {
     const startRow = Math.max(0, Math.floor(yLevel / this.cell));
     for (let r = startRow; r < rows; r += 1) {
       for (let c = 0; c < cols; c += 1) {
-        if (Math.random() < 0.03) this.solid[this.index(c, r)] = 0;
+        if (Math.random() < HAZARD_DISSOLVE_PROBABILITY) this.solid[this.index(c, r)] = 0;
       }
     }
     this.redraw();

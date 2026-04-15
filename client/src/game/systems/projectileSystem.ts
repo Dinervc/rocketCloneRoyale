@@ -52,7 +52,7 @@ export function stepProjectiles(
   }
 
   for (let i = projectiles.length - 1; i >= 0; i -= 1) {
-    if (projectiles[i]!.ttlMs <= 0) projectiles.splice(i, 1);
+    if ((projectiles[i]?.ttlMs ?? 0) <= 0) projectiles.splice(i, 1);
   }
 
   return { damageEvents, edits };

@@ -32,8 +32,9 @@ export function tryFire(tank: TankState, aimX: number, aimY: number): Projectile
   const pellets = def.pellets ?? 1;
   const spread = def.spreadRad ?? 0;
   const result: ProjectileState[] = [];
+  const spreadDivisor = pellets > 1 ? pellets - 1 : 1;
   for (let i = 0; i < pellets; i += 1) {
-    const offset = pellets === 1 ? 0 : ((i / (pellets - 1)) - 0.5) * spread;
+    const offset = pellets > 1 ? ((i / spreadDivisor) - 0.5) * spread : 0;
     const a = Math.atan2(dy, dx) + offset;
     const vx = Math.cos(a) * def.projectileSpeed;
     const vy = Math.sin(a) * def.projectileSpeed;

@@ -2,6 +2,7 @@ import type { ClientToServerMessage, ServerToClientMessage } from "@skyforge/sha
 import { safeParseMessage } from "@skyforge/shared";
 import { WebSocketServer } from "ws";
 import type { WebSocket } from "ws";
+import { WebSocket as WSClient } from "ws";
 import { encode } from "./protocol";
 import { addPeer, findRoom, getOrCreateRoom, removePeer, roomState, type Room } from "./rooms";
 
@@ -11,8 +12,16 @@ const wss = new WebSocketServer({ port: PORT });
 type Session = { room: Room; peerId: string };
 const sessions = new WeakMap<WebSocket, Session>();
 
+function sanitizeName(value: string): string {
+  return value
+    .replace(/[^\p{L}\p{N}_\- ]/gu, "")
+    .replace(/\s+/g, " ")
+    .trim()
+    .slice(0, 24) || "Pilot";
+}
+
 function send(ws: WebSocket, message: ServerToClientMessage): void {
-  if (ws.readyState === ws.OPEN) ws.send(encode(message));
+  if (ws.readyState === WSClient.OPEN) ws.send(encode(message));
 }
 
 function broadcast(room: Room, message: ServerToClientMessage): void {
@@ -31,7 +40,7 @@ wss.on("connection", (ws) => {
 
     if (payload.type === "joinRoom") {
       const room = payload.roomCode ? findRoom(payload.roomCode) ?? getOrCreateRoom(payload.mode, payload.roomCode) : getOrCreateRoom(payload.mode);
-      const peer = addPeer(room, ws, payload.playerName.slice(0, 24));
+      const peer = addPeer(room, ws, sanitizeName(payload.playerName));
       sessions.set(ws, { room, peerId: peer.id });
       send(ws, { type: "joinAccepted", selfId: peer.id, roomState: roomState(room) });
       room.peers.forEach((other) => {

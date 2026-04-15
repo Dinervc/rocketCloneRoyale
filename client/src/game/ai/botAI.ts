@@ -1,5 +1,7 @@
 import type { TankState } from "../core/state";
 
+const BOT_FIRE_CHANCE = 0.04;
+
 export interface BotDecision {
   move: -1 | 0 | 1;
   fire: boolean;
@@ -9,9 +11,17 @@ export interface BotDecision {
 }
 
 export function chooseTarget(self: TankState, tanks: TankState[]): TankState | undefined {
-  return tanks
-    .filter((t) => t.id !== self.id && t.alive)
-    .sort((a, b) => Math.hypot(a.x - self.x, a.y - self.y) - Math.hypot(b.x - self.x, b.y - self.y))[0];
+  let nearest: TankState | undefined;
+  let bestDistance = Number.POSITIVE_INFINITY;
+  for (const tank of tanks) {
+    if (tank.id === self.id || !tank.alive) continue;
+    const distance = Math.hypot(tank.x - self.x, tank.y - self.y);
+    if (distance < bestDistance) {
+      bestDistance = distance;
+      nearest = tank;
+    }
+  }
+  return nearest;
 }
 
 export function chooseWeapon(self: TankState, distance: number): string {
@@ -51,7 +61,7 @@ export function decideBotInput(self: TankState, tanks: TankState[], hazardY: num
   const utility = escapeHazard(self, hazardY) || recoverFromAirborne(self);
   return {
     move,
-    fire: Math.random() < 0.04,
+    fire: Math.random() < BOT_FIRE_CHANCE,
     utility,
     aimX: aim.aimX,
     aimY: aim.aimY,

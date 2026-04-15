@@ -121,7 +121,7 @@ export class MainScene extends Phaser.Scene {
     }
 
     const outcome = stepProjectiles(this.projectiles, this.tanks, this.terrain, dtMs);
-    if (outcome.edits.length && Math.random() < 0.06) this.sound.playAudioSprite?.("sfx", "explosion");
+    if (outcome.edits.length && Math.random() < 0.06) this.sound.play?.("explosion");
 
     this.runtime.hazardY = stepHazard(this.tanks, this.runtime.elapsedMs, this.terrain);
     updateMatch(this.runtime, this.tanks);
@@ -144,8 +144,10 @@ export class MainScene extends Phaser.Scene {
       view.label.setVisible(tank.alive).setPosition(tank.x, tank.y - 18);
     }
 
-    const me = this.tanks.find((t) => t.id === this.playerId)!;
-    const weapon = weapons.find((w) => w.id === me.selectedWeaponId)!;
+    const me = this.tanks.find((t) => t.id === this.playerId);
+    if (!me) return;
+    const weapon = weapons.find((w) => w.id === me.selectedWeaponId);
+    if (!weapon) return;
     updateHUD({
       hp: me.hp,
       maxHp: me.maxHp,
