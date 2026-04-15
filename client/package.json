@@ -1,0 +1,19 @@
+{
+  "name": "@skyforge/client",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -p tsconfig.json --noEmit && vite build",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@skyforge/shared": "0.1.0",
+    "phaser": "3.90.0"
+  },
+  "devDependencies": {
+    "typescript": "5.6.3",
+    "vite": "8.0.8"
+  }
+}

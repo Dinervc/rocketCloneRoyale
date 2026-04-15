@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Skyforge Skirmish</title>
+    <style>
+      html, body, #app { margin: 0; height: 100%; background: #060913; color: #dce4ff; font-family: Inter, system-ui, sans-serif; }
+      #hud { position: absolute; inset: 0; pointer-events: none; }
+      .panel { background: rgba(5, 12, 30, 0.6); border: 1px solid rgba(121, 173, 255, 0.4); border-radius: 8px; padding: 8px; }
+      #topbar { position: absolute; left: 12px; top: 12px; right: 12px; display: flex; justify-content: space-between; }
+      #bottom { position: absolute; left: 12px; right: 12px; bottom: 12px; display: flex; justify-content: space-between; align-items: end; }
+      #menu { position: absolute; inset: 0; display: grid; place-items: center; background: radial-gradient(circle at 50% 20%, rgba(69,95,172,.35), rgba(1,4,13,.9)); }
+      #menu .card { width: 420px; pointer-events: auto; }
+      button { width: 100%; margin-top: 8px; border: 1px solid #7ca4ff; background: #16264f; color: #eff4ff; padding: 10px; border-radius: 6px; cursor: pointer; }
+      button:hover { background: #244080; }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+    <div id="hud"></div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
