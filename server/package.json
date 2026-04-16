@@ -1,0 +1,20 @@
+{
+  "name": "@skyforge/server",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "tsx src/signaling.ts",
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@skyforge/shared": "0.1.0",
+    "ws": "8.18.0"
+  },
+  "devDependencies": {
+    "@types/ws": "8.5.12",
+    "tsx": "4.21.0",
+    "typescript": "5.6.3"
+  }
+}
